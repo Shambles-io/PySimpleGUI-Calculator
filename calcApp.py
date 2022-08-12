@@ -39,14 +39,14 @@ def create_window(theme):
 theme_menu = ['menu',['LightGrey1', 'dark', 'DarkGray8', 'random']]
 
 # Call create_window function. Window will have the dark theme
-WIN = create_window('dark')
+win = create_window('dark')
 
 
 currentNum = [] # A list containing the current numbers selected by the user
 full_operation = [] # A list containing the current operator selected by the user
 
 while True:
-    event, values = WIN.read()
+    event, values = win.read()
 
     if event == sg.WIN_CLOSED:
         break
@@ -54,15 +54,15 @@ while True:
     # If user selects a theme from the themes menu list the current window will close, and a new window with the selected theme opens
     if event in theme_menu[1]:
         # print(event)
-        WIN.close() # Close current window
-        WIN = create_window(event) # Create new window with our selected theme
+        win.close() # Close current window
+        win = create_window(event) # Create new window with our selected theme
 
     # If any numbers were pressed
     if event in ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.']:
         # print(event)
         currentNum.append(event) # Append each selected number to the end of the current list of numbers
         num_string = ''.join(currentNum) # Create a string from the list of numbers
-        WIN['-TEXT-'].update(num_string) # Update the window to display users current string of numbers (text)
+        win['-TEXT-'].update(num_string) # Update the window to display users current string of numbers (text)
 
     # If event is one of the operator keys
     if event in ['+', '-', '/', '*']:
@@ -71,7 +71,7 @@ while True:
         full_operation.append(''.join(currentNum))
         currentNum = [] # Empty our currentNum list
         full_operation.append(event) # Append our event to the full_operation list
-        WIN['-TEXT-'].update('') # After we click an operator, we want to empty the text field (by updating with an empty string)
+        win['-TEXT-'].update('') # After we click an operator, we want to empty the text field (by updating with an empty string)
 
     # If event is 'Enter' key
     if event in 'Enter':
@@ -79,7 +79,7 @@ while True:
         # If event is 'Enter' key, we want to get the full_operation, and append the currentNum
         full_operation.append(''.join(currentNum))
         result = eval(' '.join(full_operation)) # eval() evaluates a string with math operations inside (ex: eval('2+2'))
-        WIN['-TEXT-'].update(result) # Update our window to display current evaluated result
+        win['-TEXT-'].update(result) # Update our window to display current evaluated result
         full_operation = [] # Empty full_operation, so if we click anything else, it will not be appended to our current window
     
     # If event is 'Clear' key
@@ -88,6 +88,6 @@ while True:
         # If we click the 'Clear' button, all teh input disappears and we essentially start from scratch
         currentNum = [] # Set currNum to an empty list
         full_operation = [] # Set full_operation to an empty list
-        WIN['-TEXT-'].update('') # Set window text to an empty string
+        win['-TEXT-'].update('') # Set window text to an empty string
 
-WIN.close()
+win.close()
